@@ -2,60 +2,60 @@
 
 **[English](README.md) | [中文](README_zh.md)**
 
-Frontend Design Prompt is a prompt-expansion skill for teams without dedicated UI designers.
+Frontend Design Prompt 是一个面向无专职 UI 设计师团队的 prompt 扩展技能。
 
-It turns short frontend requests such as "这个表格不好看，帮我优化一下" into structured UI design briefs and handoff prompts that can be given to any downstream design tool, IDE assistant, code agent, or human collaborator.
+它能将模糊的前端请求（如"这个表格不好看，帮我优化一下"）自动扩写为结构化的 UI 设计 brief、下游 handoff prompt 和实现验收标准。
 
-## What It Does
+## 工作原理
 
-Use it as the first step:
+作为第一步使用：
 
 ```text
-Developer's vague request
--> Frontend Design Prompt expands the request into a concrete UI brief
--> the available downstream tool uses the brief
--> Codex/Claude implements the result
+开发者的模糊请求
+-> Frontend Design Prompt 将请求扩展为具体的 UI brief
+-> 可用的下游工具使用该 brief
+-> Codex/Claude 实现最终结果
 ```
 
-Example pairings:
+示例搭配：
 
 - Claude Code + UI/UX PRO MAX
 - Codex + Product Design
 
-These are examples, not dependencies. Use whichever downstream tool, skill, IDE agent, or human reviewer is available.
+这些只是示例，不是依赖。使用当前环境中可用的任何下游工具、技能、IDE agent 或人工评审。
 
-The skill is especially useful when:
+该技能在以下场景特别有用：
 
-- there is a requirement document but no UI mockup
-- a page works but looks plain or inconsistent
-- a developer says "make it nicer" or "optimize this component"
-- the design should become noticeably better-looking without becoming loose or spacious
+- 有需求文档但没有 UI 设计稿
+- 页面功能正常但看起来普通或不一致
+- 开发者说"做好看一点"或"优化这个组件"
+- 设计需要明显更好看，但不能变得松散或过于宽松
 
-## Version 0.3.1 Updates
+## v0.3.1 更新
 
-This release makes the skill more opinionated in the direction of visual improvement:
+此版本让技能更明确地偏向视觉改进方向：
 
-- Renamed the skill to `frontend-design-prompt`.
-- Made the skill tool-agnostic. Product Design and UI/UX PRO MAX are examples, not required dependencies.
-- Added explicit output modes:
-  - Brief only: turn a vague request into a clear UI brief.
-  - Handoff prompt: create a ready-to-copy task prompt for another tool, agent, or teammate.
-  - Implement after brief: create the brief first, then modify the current project.
-- Removed "preserve the old system look" as the default goal.
-- Kept compact layout and restrained spacing as a hard constraint.
-- Added `references/style-audit-checklist.md` for extracting practical constraints from existing projects.
-- Added `references/before-after-examples.md` with realistic short-request expansions.
-- Updated `references/prompt-patterns.md` with a generic downstream handoff template.
+- 将技能重命名为 `frontend-design-prompt`。
+- 技能与工具无关。Product Design 和 UI/UX PRO MAX 是示例，不是必需依赖。
+- 新增明确的输出模式：
+  - 仅 Brief：将模糊请求转为清晰的 UI brief。
+  - Handoff prompt：为其他工具、agent 或队友创建可直接复制的任务 prompt。
+  - 先 Brief 后实现：先创建 brief，再修改当前项目。
+- 移除"保留旧系统外观"作为默认目标。
+- 保留紧凑布局和克制间距作为硬性约束。
+- 新增 `references/style-audit-checklist.md` 用于从现有项目提取实用约束。
+- 新增 `references/before-after-examples.md` 包含真实的短请求扩展示例。
+- 更新 `references/prompt-patterns.md` 包含通用的下游 handoff 模板。
 
-## Install in Codex
+## 在 Codex 中安装
 
-Copy this folder to:
+将此文件夹复制到：
 
 ```text
 C:\Users\<your-user>\.codex\skills\frontend-design-prompt\
 ```
 
-Expected structure:
+期望的目录结构：
 
 ```text
 frontend-design-prompt/
@@ -67,7 +67,7 @@ frontend-design-prompt/
     └── style-audit-checklist.md
 ```
 
-Then use it in Codex with Product Design like this:
+然后在 Codex 中配合 Product Design 使用：
 
 ```text
 Use frontend-design-prompt + @Product Design.
@@ -86,21 +86,21 @@ Respect only the practical constraints:
 Output the handoff prompt first. Do not implement until the brief is clear.
 ```
 
-## Install in Claude Code
+## 在 Claude Code 中安装
 
-Copy this folder to either personal or project skills:
+将此文件夹复制到个人或项目技能目录：
 
 ```text
 C:\Users\<your-user>\.claude\skills\frontend-design-prompt\
 ```
 
-or inside a project:
+或在项目内部：
 
 ```text
 <project>\.claude\skills\frontend-design-prompt\
 ```
 
-Then call it with:
+然后这样调用：
 
 ```text
 /frontend-design-prompt
@@ -110,18 +110,18 @@ Then call it with:
 不要默认延续旧系统的视觉风格。目标是更好看，但布局必须保持紧凑，间距不要过大，业务流程和组件能力要可实现。
 ```
 
-## Recommended Prompt Pattern
+## 推荐的 Prompt 模式
 
-Use this when you want the skill to behave as a front-loaded step:
+当希望技能作为前置步骤时使用：
 
 ```text
 Use frontend-design-prompt as the first step.
 
 Short request:
-[paste the developer's vague request]
+[粘贴开发者的模糊请求]
 
 Context:
-[requirement document, screenshot, current route, component name, or code path]
+[需求文档、截图、当前路由、组件名称或代码路径]
 
 Constraints:
 - optimize for a better-looking UI
@@ -135,15 +135,15 @@ Output:
 3. implementation acceptance criteria
 ```
 
-## Output Modes
+## 输出模式
 
-Use one of these modes depending on what you need:
+根据需要选择以下模式：
 
-- Brief only: turn a vague request into a clear UI brief for discussion.
-- Handoff prompt: create a ready-to-copy task prompt for another tool, agent, or teammate.
-- Implement after brief: create the brief first, then modify the current project.
+- 仅 Brief：将模糊请求转为清晰的 UI brief 用于讨论。
+- Handoff prompt：为其他工具、agent 或队友创建可直接复制的任务 prompt。
+- 先 Brief 后实现：先创建 brief，再修改当前项目。
 
-Default to Handoff prompt when the user mentions another tool, asks for a prompt, or wants to pass the task forward.
+当用户提到其他工具、请求 prompt 或想将任务传递给下游时，默认使用 Handoff prompt 模式。
 
 ## Claude Code + UI/UX PRO MAX Prompt
 
@@ -192,15 +192,15 @@ Output:
 3. implementation acceptance criteria
 ```
 
-## Example
+## 示例
 
-Input:
+输入：
 
 ```text
 这个表格不好看，帮我优化一下。@Product Design
 ```
 
-Expected output:
+期望输出：
 
 ```text
 Original request:
@@ -222,11 +222,11 @@ Implementation acceptance criteria:
 The optimized table must avoid text overflow, support hover/selected/disabled/loading/empty/error states, work on desktop and narrow screens, keep density compact, and make primary actions easy to identify.
 ```
 
-## Chinese Best-Practice Prompts
+## 中文最佳实践 Prompt
 
-Use these examples when you want the skill to reliably generate a better-looking UI while keeping the layout compact.
+当希望技能可靠地生成更好看的 UI 同时保持布局紧凑时，使用以下示例。
 
-### 1. Existing Admin Page Visual Upgrade
+### 1. 现有后台页面视觉升级
 
 ```text
 Use frontend-design-prompt as the first step.
@@ -247,7 +247,7 @@ Use frontend-design-prompt as the first step.
 3. 实现验收标准
 ```
 
-### 2. New Page From Requirement Document
+### 2. 从需求文档创建新页面
 
 ```text
 Use frontend-design-prompt as the first step.
@@ -269,7 +269,7 @@ Use frontend-design-prompt as the first step.
 4. 验收标准
 ```
 
-### 3. Table Optimization
+### 3. 表格优化
 
 ```text
 Use frontend-design-prompt + @Product Design.
@@ -290,7 +290,7 @@ Use frontend-design-prompt + @Product Design.
 3. 实现验收标准
 ```
 
-### 4. Form Or Dialog Polish
+### 4. 表单或弹窗优化
 
 ```text
 Use frontend-design-prompt as the first step.
@@ -311,7 +311,7 @@ Use frontend-design-prompt as the first step.
 3. 前端实现检查清单
 ```
 
-### 5. Codex Direct Implementation Prompt
+### 5. Codex 直接实现 Prompt
 
 ```text
 Use frontend-design-prompt in Implement After Brief mode.
