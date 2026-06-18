@@ -120,11 +120,68 @@ First provide a short brief, then implement the changes.
 
 ## Installation
 
-Copy this folder to your Codex skills directory:
+Copy the whole `frontend-design-prompt/` folder, including `SKILL.md` and `references/`.
+
+### Codex
+
+Install as a personal Codex skill:
 
 ```text
 C:\Users\<your-user>\.codex\skills\frontend-design-prompt\
 ```
+
+Then use it with:
+
+```text
+Use frontend-design-prompt as the first step.
+```
+
+### Claude Code
+
+Install as a personal Claude Code skill:
+
+```text
+~/.claude/skills/frontend-design-prompt/
+```
+
+Or install it only for one project:
+
+```text
+<project>/.claude/skills/frontend-design-prompt/
+```
+
+Invoke it directly with:
+
+```text
+/frontend-design-prompt
+```
+
+Claude Code also loads matching skills automatically when the request matches the skill description. See the [Claude Code skills docs](https://code.claude.com/docs/en/skills).
+
+### opencode
+
+Install as a global opencode skill:
+
+```text
+~/.config/opencode/skills/frontend-design-prompt/
+```
+
+Or install it only for one project:
+
+```text
+<project>/.opencode/skills/frontend-design-prompt/
+```
+
+opencode also discovers Claude-compatible and Agent Skills-compatible locations:
+
+```text
+<project>/.claude/skills/frontend-design-prompt/
+~/.claude/skills/frontend-design-prompt/
+<project>/.agents/skills/frontend-design-prompt/
+~/.agents/skills/frontend-design-prompt/
+```
+
+Use the skill by asking opencode to load `frontend-design-prompt`, or by making a request that matches its description. See the [opencode Agent Skills docs](https://opencode.ai/docs/skills/).
 
 Expected structure:
 

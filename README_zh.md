@@ -120,11 +120,68 @@ Use frontend-design-prompt in Implement After Brief mode.
 
 ## 安装
 
-将此文件夹复制到 Codex skills 目录：
+复制整个 `frontend-design-prompt/` 文件夹，包括 `SKILL.md` 和 `references/`。
+
+### Codex
+
+作为个人 Codex skill 安装：
 
 ```text
 C:\Users\<your-user>\.codex\skills\frontend-design-prompt\
 ```
+
+然后这样使用：
+
+```text
+Use frontend-design-prompt as the first step.
+```
+
+### Claude Code
+
+作为个人 Claude Code skill 安装：
+
+```text
+~/.claude/skills/frontend-design-prompt/
+```
+
+或只安装到某个项目：
+
+```text
+<project>/.claude/skills/frontend-design-prompt/
+```
+
+直接调用：
+
+```text
+/frontend-design-prompt
+```
+
+Claude Code 也会在请求匹配 skill 描述时自动加载。参考 [Claude Code skills 文档](https://code.claude.com/docs/en/skills)。
+
+### opencode
+
+作为全局 opencode skill 安装：
+
+```text
+~/.config/opencode/skills/frontend-design-prompt/
+```
+
+或只安装到某个项目：
+
+```text
+<project>/.opencode/skills/frontend-design-prompt/
+```
+
+opencode 也会发现 Claude 兼容和 Agent Skills 兼容的位置：
+
+```text
+<project>/.claude/skills/frontend-design-prompt/
+~/.claude/skills/frontend-design-prompt/
+<project>/.agents/skills/frontend-design-prompt/
+~/.agents/skills/frontend-design-prompt/
+```
+
+使用时可以让 opencode 加载 `frontend-design-prompt`，也可以直接提出匹配该 skill 描述的请求。参考 [opencode Agent Skills 文档](https://opencode.ai/docs/skills/)。
 
 期望目录结构：
 
