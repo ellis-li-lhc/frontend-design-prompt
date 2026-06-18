@@ -1,10 +1,11 @@
 ---
 name: frontend-design-prompt
 description: Use this skill when users provide vague frontend UI requests like "不好看", "优化一下页面", "高级一点", "make it nicer", or only a requirement document without UI design. Expands short developer requests into structured UI briefs, downstream handoff prompts, and implementation acceptance criteria with a compact, visually polished UI direction.
-version: 0.3.1
 ---
 
 # Frontend Design Prompt Skill
+
+Current version: 1.1.0
 
 ## Purpose
 
@@ -21,6 +22,14 @@ Your job is to create the missing design direction.
 ## Default Behavior
 
 Do not jump straight to CSS unless the user explicitly asks for code-only fixes.
+
+Start by diagnosing the input. Decide whether the user gave:
+- a one-line style complaint
+- a requirement document
+- an existing page or component
+- a screenshot or mockup
+- a code path or current project
+- a request for a downstream prompt
 
 When the input is vague, first produce or use a structured design brief that covers:
 - page or component purpose
@@ -43,6 +52,7 @@ Default design direction:
 - use compact, efficient layouts rather than spacious marketing-style spacing
 - keep section gaps, paddings, and control spacing restrained
 - do not inherit mediocre visual decisions from an old system unless the user explicitly asks for consistency
+- make acceptance criteria concrete enough for implementation and review
 
 If the user asks to use Product Design, shape the output as a Product Design-ready prompt.
 
@@ -138,13 +148,16 @@ Do not use this skill for:
 
 Classify the request:
 
-| Input | Response Mode |
-|---|---|
-| Requirement document only | Create a full page design brief or handoff prompt |
-| Existing ugly page/component | Create a redesign brief and implementation checklist |
-| One-line style request | Expand into a detailed prompt |
-| User asks for Product Design | Produce a Product Design-ready brief |
-| User asks for code changes | Use the brief internally, then implement |
+| Input Signal | Design Action | Load If Needed |
+|---|---|---|
+| One-line style request | Expand into a handoff prompt with assumptions and anti-patterns | `references/before-after-examples.md` |
+| Requirement document only | Create page goal, information architecture, modules, states, and acceptance criteria | `references/page-type-templates.md` |
+| Existing ugly page/component | Audit practical constraints, then create redesign brief | `references/style-audit-checklist.md` |
+| Screenshot or visual reference | Diagnose hierarchy, density, alignment, contrast, states, and responsiveness | `references/anti-patterns-and-acceptance.md` |
+| Code path or current project | Inspect stack, component library, nearby screens, tokens, and business flow before writing the brief | `references/project-aware-audit.md` |
+| User asks for another tool/agent | Output a ready-to-copy handoff prompt | `references/prompt-patterns.md` |
+
+If the user gives an exact mockup and asks for pixel-faithful implementation, this skill is usually not the primary tool. Use it only to clarify implementation acceptance criteria or missing states.
 
 ### 2. Infer Missing Context
 
@@ -158,7 +171,30 @@ Infer:
 - Visual tone: professional, clean, premium, friendly, technical, trustworthy
 - Key risk: clutter, weak hierarchy, low contrast, inconsistent spacing, missing states
 
-### 3. Extract Useful Constraints, Not Old Style Debt
+### 3. Choose Page Type And Visual Direction
+
+Map the request to a page or component type before writing the brief.
+
+Common page types:
+- admin list/table page
+- dashboard or analytics page
+- form or wizard
+- detail page
+- settings page
+- modal or drawer
+- login/auth page
+- landing or marketing page
+
+Common visual directions:
+- Operational Compact: admin, CRM, tables, approvals, management workflows
+- Data Dense: monitoring, analytics, BI, dashboards
+- Premium Minimal: login, settings, SaaS account, high-trust flows
+- Friendly Product: consumer tools, creator workflows, onboarding
+- Editorial Landing: marketing, product story, public pages
+
+Load `references/page-type-templates.md` when page-type guidance would make the prompt more concrete.
+
+### 4. Extract Useful Constraints, Not Old Style Debt
 
 For ongoing projects, do not blindly inherit an old system's visual language.
 
@@ -179,7 +215,21 @@ Do not preserve outdated choices just because they already exist:
 
 When generating prompts, use a "Constraints to respect" section instead of "Existing style to preserve."
 
-### 4. Translate Vague Words
+### 5. Audit Existing Projects Before Redesigning
+
+When the user points to an existing project, page, or component, inspect practical constraints before producing final instructions.
+
+Check:
+- framework and component library
+- route/page structure and sibling screens
+- design tokens, shared CSS, theme config, and component variants
+- current business flow, actions, permissions, filters, pagination, modals, and forms
+- current state coverage: loading, empty, error, disabled, hover, focus-visible, selected
+- responsive behavior and likely overflow risks
+
+Load `references/project-aware-audit.md` for the detailed audit workflow.
+
+### 6. Translate Vague Words
 
 | User Says | Design Meaning | Prompt Direction |
 |---|---|---|
@@ -194,7 +244,7 @@ When generating prompts, use a "Constraints to respect" section instead of "Exis
 | 没重点 / no focus | Weak hierarchy | Define primary action, key metric, visual path |
 | 不协调 / inconsistent | System mismatch | Normalize spacing, radius, color, typography, icon sizing |
 
-### 5. Generate the Design Brief
+### 7. Generate the Design Brief
 
 Use this structure unless the user asks for a different format:
 
@@ -212,11 +262,14 @@ Responsive requirements:
 Accessibility requirements:
 Implementation constraints:
 Acceptance criteria:
+- Must:
+- Should:
+- Nice:
 ```
 
 Keep the brief specific enough that another AI can build from it without guessing the design taste.
 
-### 6. Produce an AI Prompt
+### 8. Produce an AI Prompt
 
 When the deliverable is a prompt, write it as an instruction to the next AI agent.
 
@@ -229,7 +282,7 @@ Good prompts include:
 - component/state requirements
 - compact density constraints
 - constraints and anti-patterns
-- acceptance criteria
+- Must/Should/Nice acceptance criteria
 
 Avoid prompts that only say:
 - "make it beautiful"
@@ -238,7 +291,7 @@ Avoid prompts that only say:
 - "make it like Apple/Stripe/Linear" without explaining the relevant qualities
 - "redesign everything" when the task is only to improve an existing product screen
 
-### 7. Implementation Guidance
+### 9. Implementation Guidance
 
 If implementing the UI after creating the brief:
 - Read the existing component/library constraints and business flow first.
@@ -247,6 +300,20 @@ If implementing the UI after creating the brief:
 - Use real states: loading, empty, error, disabled, hover, focus-visible.
 - Verify desktop and mobile layout.
 - Check text wrapping, contrast, spacing, and interaction affordances.
+
+### 10. Guard Against Common Anti-Patterns
+
+Before finalizing the brief or prompt, check for anti-patterns such as:
+- turning an operational page into a marketing page
+- adding decoration without improving hierarchy
+- making tables, filters, or forms too airy for high-frequency work
+- wrapping every section in decorative cards
+- relying on gradients, shadows, or motion as the main polish
+- missing hover, focus-visible, loading, empty, error, disabled, or selected states
+- leaving primary and secondary actions visually ambiguous
+- ignoring mobile wrapping, overflow, or touch targets
+
+Load `references/anti-patterns-and-acceptance.md` when the prompt needs stricter guardrails.
 
 ## Runtime Coordination
 
@@ -367,6 +434,11 @@ Before finalizing a prompt or implementation, check:
 - Are decorative effects restrained and purposeful?
 - Would a frontend developer know exactly what to build next?
 
+For implementation handoff, split acceptance criteria into:
+- Must: correctness, business flow, state coverage, responsive fit, no text overflow, accessibility basics
+- Should: stronger hierarchy, consistent spacing, reusable components, compact density, scanability
+- Nice: subtle motion, improved empty-state illustration, optional visual refinements that do not block usability
+
 ## References
 
 Load `references/prompt-patterns.md` when examples or reusable prompt templates are useful.
@@ -375,25 +447,10 @@ Load `references/style-audit-checklist.md` when the work needs implementation co
 
 Load `references/before-after-examples.md` when the user gives a very short request and you need examples for expansion style.
 
-Load `README.md` when you want ready-to-use Chinese best-practice prompts for Codex, Product Design, or direct implementation workflows.
+Load `references/page-type-templates.md` when the request maps to a common page or component type and needs concrete information architecture, modules, and states.
 
-## Version History
+Load `references/project-aware-audit.md` when the user points to an existing codebase, route, component, screenshot, or current product surface.
 
-**v0.3.1** (2026-06-16):
-- Repositioned the skill toward "make the UI look better" instead of preserving old visual style by default.
-- Kept compact operational layout as a hard constraint.
-- Replaced style-preservation guidance with constraint-preservation guidance.
+Load `references/anti-patterns-and-acceptance.md` when the task needs stronger design guardrails or Must/Should/Nice acceptance criteria.
 
-**v0.3.0** (2026-06-15):
-- Made the skill tool-agnostic.
-- Added explicit output modes: Brief Only, Handoff Prompt, and Implement After Brief.
-- Added stronger handoff rules for any downstream tool, agent, or human.
-- Added references for style auditing and before/after expansion examples.
-
-**v0.2.0** (2026-06-11):
-- Repositioned skill from CSS polish guide to UI brief and prompt expansion workflow.
-- Added Product Design-ready brief structure.
-- Added vague request translation table and quality checklist.
-
-**v0.1.0** (2026-06-11):
-- Initial release with visual polish dimensions and CSS patterns.
+Load `README.md` or `README_zh.md` when the user needs a concise overview, installation notes, or ready-to-use invocation examples.

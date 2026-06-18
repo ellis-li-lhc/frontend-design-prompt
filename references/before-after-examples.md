@@ -32,7 +32,9 @@ Review criteria:
 Check scanability, state clarity, text truncation, column density, keyboard focus, accessible contrast, responsive behavior, and consistency with the intended compact product UI.
 
 Implementation acceptance criteria:
-The optimized table avoids text overflow, supports hover/selected/disabled/loading/empty/error states, works on desktop and narrow screens, keeps density compact, and makes primary actions easy to identify.
+Must: The optimized table avoids text overflow, supports hover/selected/disabled/loading/empty/error states, works on desktop and narrow screens, and preserves existing behavior.
+Should: It keeps density compact, improves scanability, and makes primary actions easy to identify.
+Nice: Add subtle row feedback or empty-state polish only if it does not reduce readability.
 ```
 
 ## Example 2: Login Page Should Feel Premium
@@ -65,7 +67,9 @@ Review criteria:
 Check first-impression trust, form completion clarity, accessibility, mobile fit, error recovery, keyboard navigation, and overall polish.
 
 Implementation acceptance criteria:
-The login form remains simple, readable, responsive, accessible, visually polished, and complete in error/loading/disabled/focus-visible states.
+Must: The login form remains readable, responsive, accessible, and complete in error/loading/disabled/focus-visible states.
+Should: It feels refined and trustworthy while staying simple and compact.
+Nice: Add subtle visual polish only if it does not distract from form completion.
 ```
 
 ## Example 3: User Management Page From Requirements
@@ -98,7 +102,9 @@ Review criteria:
 Check task efficiency, information hierarchy, data readability, action discoverability, permission/status clarity, responsive behavior, and visual polish.
 
 Implementation acceptance criteria:
-The page is implementable with the current stack, handles all major states, keeps common admin actions easy to find, and stays compact without feeling cramped.
+Must: The page is implementable with the current stack, preserves required user actions, and handles all major states.
+Should: Common admin actions are easy to find, and the layout stays compact without feeling cramped.
+Nice: Add lightweight visual refinements only where they improve hierarchy or feedback.
 ```
 
 ## Example 4: Dialog Looks Rough
@@ -131,5 +137,7 @@ Review criteria:
 Check decision clarity, destructive-action safety, keyboard/focus behavior, copy readability, responsive fit, and overall polish.
 
 Implementation acceptance criteria:
-The dialog has clear action hierarchy, supports focus-visible/disabled/loading/error states, does not overflow on small screens, and keeps spacing compact.
+Must: The dialog has clear action hierarchy, supports focus-visible/disabled/loading/error states, and does not overflow on small screens.
+Should: It keeps spacing compact and improves title, body, and footer hierarchy.
+Nice: Add subtle transition or feedback polish only if it supports clarity.
 ```

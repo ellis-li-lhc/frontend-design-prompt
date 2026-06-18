@@ -50,10 +50,18 @@ Accessibility requirements:
 - Keep touch targets usable on mobile.
 
 Acceptance criteria:
+Must:
+- Preserve required business flow, content, states, responsive behavior, and accessibility basics.
+- Avoid text overflow and incoherent overlap.
+
+Should:
 - The result should look intentionally designed rather than merely functional.
 - A frontend developer should be able to implement the layout and states directly.
 - The visual style should fit the product type and user workflow.
 - Spacing should feel controlled and efficient rather than loose.
+
+Nice:
+- Add subtle visual refinements or motion only when they support feedback, hierarchy, or task clarity.
 ```
 
 ## Generic Handoff Prompt Template
@@ -81,7 +89,14 @@ Review criteria:
 [Hierarchy, scanability, accessibility, consistency, responsiveness, states, implementation fit.]
 
 Implementation acceptance criteria:
-[Concrete checks that prove the result is usable and implementable.]
+Must:
+[Correctness, business flow, required states, responsive fit, accessibility basics.]
+
+Should:
+[Hierarchy, scanability, compact density, consistency, reusable components.]
+
+Nice:
+[Optional motion, empty-state polish, microcopy, or small visual refinements.]
 ```
 
 ## Existing Page Redesign Prompt
@@ -120,10 +135,17 @@ Constraints:
 - Keep the design responsive and compact.
 
 Acceptance criteria:
-- The primary task is easier to understand.
-- The main action is clear.
+Must:
+- Preserve existing business flow, required actions, data, states, and responsive behavior.
+- The primary task and main action are clear.
+
+Should:
 - The interface feels coherent across sections.
+- The primary task is easier to understand.
 - The improved design is implementable by frontend developers.
+
+Nice:
+- Add subtle polish only where it improves feedback or hierarchy.
 ```
 
 ## Component Beautification Prompt
@@ -149,10 +171,17 @@ Requirements:
 - Avoid visual effects that make the component harder to read or reuse.
 
 Acceptance criteria:
-- The component has clear affordance.
+Must:
+- Preserve existing behavior and content.
 - Text fits inside the component.
 - State changes are visible and accessible.
+
+Should:
+- The component has clear affordance.
 - Styling can be reused consistently across the product.
+
+Nice:
+- Add refined micro-interactions only when they improve feedback without reducing clarity.
 ```
 
 ## Short Request Expansion Examples
